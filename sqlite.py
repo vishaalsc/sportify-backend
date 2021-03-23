@@ -25,3 +25,5 @@ c.execute('''
 conn.commit()
 
 conn.close()
+
+print('Created locations table')

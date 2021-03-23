@@ -13,7 +13,7 @@ with open('toronto-courts-facilities-data.csv', 'r') as file:
 			INSERT INTO locations(court_id, name, tennis_court_area, park_name, address, district,
 			ward, primary_permitting_status, asset_category, lights, surface_material, GIS_coordinate)
 			VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
-			'''	, tuple(r for r in row))
+			'''	, row)
 		conn.commit()
 		records += 1
 
