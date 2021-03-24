@@ -35,13 +35,9 @@ class SportifyUser(HttpUser):
 	@task
 	def get_park_location(self):
 		park_name = self.locationData.get_random_park()
-		self.client.get(
-			"/api/locations/parks/?name={}"
-			.format(park_name))
+		self.client.get(f"/api/locations/parks/?name={park_name}")
 
 	@task
 	def get_district_location(self):
 		district = self.locationData.get_random_district()
-		self.client.get(
-			"/api/locations/districts?name={}"
-			.format(district))
+		self.client.get(f"/api/locations/districts?name={district}")

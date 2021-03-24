@@ -41,7 +41,7 @@ def locations_parks():
 		park_name = request.args.get('name')
 		parks = c.execute('''
 			SELECT * FROM locations WHERE park_name LIKE ?;
-		''', ('%{}%'.format(park_name),)).fetchall()
+		''', (f'%{park_name}%',)).fetchall()
 		return jsonify(parks)
 	return "No park name specified"
 
@@ -58,7 +58,7 @@ def locations_districts():
 		district = request.args.get('district')
 		districts = c.execute('''
 			SELECT * FROM locations WHERE district LIKE ?;
-		''', ('%{}%'.format(district),)).fetchall()
+		''', (f'%{district}%',)).fetchall()
 		return jsonify(districts)
 	return "No district specified"
 
