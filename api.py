@@ -2,6 +2,9 @@ import sqlite3
 import flask
 from flask import g, request, jsonify
 
+"""
+Setup Flask app and SQLite DB
+"""
 app = flask.Flask(__name__)
 app.config['DEBUG'] = True
 
@@ -18,6 +21,9 @@ def get_db():
 	db.row_factory = dict_factory
 	return db
 
+"""
+API routing for location data
+"""
 @app.route('/', methods=['GET'])
 def home():
 	return 'Lorem ipsum'
@@ -28,7 +34,7 @@ def locations_all():
 	locations = c.execute('SELECT * FROM locations;').fetchall()
 	return jsonify(locations)
 
-@app.route('/api/locations/park/', methods=['GET'])
+@app.route('/api/locations/parks/', methods=['GET'])
 def locations_parks():
 	c = get_db().cursor()
 	if request.args:
@@ -39,7 +45,13 @@ def locations_parks():
 		return jsonify(parks)
 	return "No park name specified"
 
-@app.route('/api/locations/district/', methods=['GET'])
+@app.route('/api/parks/all', methods=['GET'])
+def parks_all():
+	c = get_db().cursor()
+	parks = c.execute('SELECT DISTINCT park_name FROM locations;').fetchall()
+	return jsonify(parks)
+
+@app.route('/api/locations/districts/', methods=['GET'])
 def locations_districts():
 	c = get_db().cursor()
 	if request.args:
@@ -50,6 +62,15 @@ def locations_districts():
 		return jsonify(districts)
 	return "No district specified"
 
+@app.route('/api/districts/all', methods=['GET'])
+def districts_all():
+	c = get_db().cursor()
+	districts = c.execute('SELECT DISTINCT district FROM locations;').fetchall()
+	return jsonify(districts)
+
+"""
+DB close and app error handling
+"""
 @app.teardown_appcontext
 def close_connection(exception):
 	db = getattr(g, '_database', None)
