@@ -32,7 +32,7 @@ def home():
 def locations_all():
 	c = get_db().cursor()
 	locations = c.execute('SELECT * FROM locations;').fetchall()
-	return jsonify(locations)
+	return jsonify(locations), 200
 
 @app.route('/api/locations/parks/', methods=['GET'])
 def locations_parks():
@@ -42,7 +42,7 @@ def locations_parks():
 		parks = c.execute('''
 			SELECT * FROM locations WHERE park_name LIKE ?;
 		''', (f'%{park_name}%',)).fetchall()
-		return jsonify(parks)
+		return jsonify(parks), 200
 	return "No park name specified"
 
 @app.route('/api/parks/all', methods=['GET'])
@@ -59,14 +59,14 @@ def locations_districts():
 		districts = c.execute('''
 			SELECT * FROM locations WHERE district LIKE ?;
 		''', (f'%{district}%',)).fetchall()
-		return jsonify(districts)
+		return jsonify(districts), 200
 	return "No district specified"
 
 @app.route('/api/districts/all', methods=['GET'])
 def districts_all():
 	c = get_db().cursor()
 	districts = c.execute('SELECT DISTINCT district FROM locations;').fetchall()
-	return jsonify(districts)
+	return jsonify(districts), 200
 
 """
 DB close and app error handling
@@ -81,4 +81,4 @@ def close_connection(exception):
 def page_not_found(e):
 	return "Resource not found", 404
 
-app.run()
+app.run(host='0.0.0.0', port=5000)
