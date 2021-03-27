@@ -12,12 +12,12 @@ class LocationData:
 	def get_random_park(self):
 		res = requests.get(self.parks_url).json()
 		if res:
-			return random.choice(res)[0]
+			return random.choice(res.keys())
 
 	def get_random_district(self):
 		res = requests.get(self.districts_url).json()
 		if res:
-			return random.choice(res)[0]
+			return random.choice(res.keys())
 
 class SportifyUser(HttpUser):
 	wait_time = between(1, 2.5)
